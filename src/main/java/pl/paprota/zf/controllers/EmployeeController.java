@@ -1,5 +1,6 @@
 package pl.paprota.zf.controllers;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +19,26 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<?> addEmployee(@RequestBody @Valid EmployeeDTO employeeDTO){
+    @PostMapping(value = "/addEmployee")
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO){
         try {
             String response = "Employee with ID: " + this.employeeService.addEmployee(employeeDTO) + " was successfully added";
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/deleteEmployee/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id){
         try{
             this.employeeService.deleteById(id);
             String response = "Employee with ID: " + id + " was successfully deleted";
             return ResponseEntity.ok(response);
+        }
+        catch (EmptyResultDataAccessException exc){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Employee with this ID doesn't exist");
         }
         catch(Exception e)
         {
@@ -42,18 +46,12 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping(value = "/put/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody @Valid EmployeeDTO employeeDTO){
+    @PutMapping(value = "/updateEmployee/{id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
         try{
-            String response;
             Long updatedId = this.employeeService.updateEmployee(id, employeeDTO);
-            if(updatedId!=null) {
-                response = "Employee with ID: " + updatedId + " was successfully updated";
-                return ResponseEntity.ok(response);
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Employee with this ID doesn't exist");
-            }
+            String response = "Employee with ID: " + updatedId + " was successfully updated";
+            return ResponseEntity.ok(response);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
