@@ -1,5 +1,6 @@
 package pl.paprota.zf.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.paprota.zf.dto.PostalAddressDTO;
 import pl.paprota.zf.entities.Employee;
@@ -12,15 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PostalAddressService {
 
     private final PostalAddressRepository postalAddressRepository;
     private final EmployeeRepository employeeRepository;
-
-    public PostalAddressService(PostalAddressRepository postalAddressRepository, EmployeeRepository employeeRepository) {
-        this.postalAddressRepository = postalAddressRepository;
-        this.employeeRepository = employeeRepository;
-    }
 
     @Transactional
     public void deleteById(Long id){

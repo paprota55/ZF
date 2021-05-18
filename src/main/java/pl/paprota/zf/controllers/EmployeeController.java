@@ -1,5 +1,6 @@
 package pl.paprota.zf.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,21 +10,18 @@ import pl.paprota.zf.services.EmployeeService;
 
 import javax.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO){
         try {
             String response = "Employee with ID: " + this.employeeService.addEmployee(employeeDTO) + " was successfully added";
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.ok(response);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());

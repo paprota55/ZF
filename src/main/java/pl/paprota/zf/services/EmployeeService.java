@@ -1,5 +1,6 @@
 package pl.paprota.zf.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.paprota.zf.dto.EmployeeDTO;
 import pl.paprota.zf.entities.Employee;
@@ -9,13 +10,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class EmployeeService {
-        private final EmployeeRepository employeeRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+    private final EmployeeRepository employeeRepository;
 
     public Long addEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
