@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.paprota.zf.dto.PostalAddressDTO;
 import pl.paprota.zf.services.PostalAddressService;
+
+import javax.validation.Valid;
 
 @Api(value = "Controller to manage postal addresses CRUD operations")
 @RequiredArgsConstructor
@@ -45,7 +48,7 @@ public class PostalAddressController {
             notes = "Provide postal address data to be saved in the database",
             response = ResponseEntity.class)
     @PostMapping(value = "/addPostalAddress")
-    public ResponseEntity<?> addPostalAddress(@ApiParam(value = "Postal address data like town, postal code, street, employee id", required = true) @RequestBody PostalAddressDTO postalAddressDTO){
+    public ResponseEntity<?> addPostalAddress(@ApiParam(value = "Postal address data like town, postal code, street, employee id", required = true) @Valid @RequestBody PostalAddressDTO postalAddressDTO){
         try{
             Long id = this.postalAddressService.addPostalAddress(postalAddressDTO);
             String response = "PostalAddress with ID: " + id + " was successfully added";
@@ -76,7 +79,7 @@ public class PostalAddressController {
             notes = "Provide postal address ID and data which need to be changed",
             response = ResponseEntity.class)
     @PutMapping(value = "/updatePostalAddress/{id}")
-    public ResponseEntity<?> updatePostalAddress(@ApiParam(value = "ID value for the postal address you need to update", required = true) @PathVariable Long id, @ApiParam(value = "Postal address data to change") @RequestBody PostalAddressDTO postalAddressDTO){
+    public ResponseEntity<?> updatePostalAddress(@ApiParam(value = "ID value for the postal address you need to update", required = true) @PathVariable Long id, @ApiParam(value = "Postal address data to change") @Valid @RequestBody PostalAddressDTO postalAddressDTO){
         try{
             Long updatedId = this.postalAddressService.updatePostalAddress(id, postalAddressDTO);
             String response = "Postal address with ID: " + updatedId + " was successfully updated";
