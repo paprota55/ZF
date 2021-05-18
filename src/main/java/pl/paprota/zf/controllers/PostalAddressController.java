@@ -1,5 +1,6 @@
 package pl.paprota.zf.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,15 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import pl.paprota.zf.dto.PostalAddressDTO;
 import pl.paprota.zf.services.PostalAddressService;
 
-@Controller
+@RequiredArgsConstructor
+@RestController
 @RequestMapping("/api")
 public class PostalAddressController {
 
     private final PostalAddressService postalAddressService;
-
-    public PostalAddressController(PostalAddressService postalAddressService) {
-        this.postalAddressService = postalAddressService;
-    }
 
     @GetMapping(value = "/getAllPostalAddresses")
     public ResponseEntity<?> getPostalAddresses(){
@@ -38,7 +36,7 @@ public class PostalAddressController {
         try{
             Long id = this.postalAddressService.addPostalAddress(postalAddressDTO);
             String response = "PostalAddress with ID: " + id + " was successfully added";
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.ok(response);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
