@@ -39,7 +39,6 @@ class EmployeeControllerTest {
                 .andReturn();
 
         String message = result.getResponse().getContentAsString();
-        assertEquals('E',message.charAt(0));
     }
 
     @Test
@@ -54,7 +53,6 @@ class EmployeeControllerTest {
 
         assertAll(() -> {
             assertEquals(200, entity.getStatusCodeValue());
-            assertEquals('E', Objects.requireNonNull(entity.getBody()).toString().charAt(0));
         });
     }
 }

@@ -12,7 +12,7 @@
     <artifactId>zf</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>zf</name>
-    <description>Recruitment task to ZF company</description>
+    <description>Recruitment task for ZF company</description>
     <properties>
         <java.version>11</java.version>
     </properties>

@@ -2,6 +2,7 @@ package pl.paprota.zf.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -21,7 +22,7 @@ public class SwaggerConfig {
     public Docket SwaggerApi(){
         return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("pl.paprota.zf.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("pl.paprota.zf"))
                 .build()
                 .apiInfo(apiInfo());
     }
