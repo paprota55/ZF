@@ -1,5 +1,6 @@
 package pl.paprota.zf.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.paprota.zf.dto.EmployeeDTO;
 import pl.paprota.zf.entities.Employee;
@@ -9,13 +10,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class EmployeeService {
-        private final EmployeeRepository employeeRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+    private final EmployeeRepository employeeRepository;
 
     public Long addEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
@@ -32,20 +30,17 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Long updateEmployee(Long id, EmployeeDTO employeeDTO){
-        Optional<Employee> employee = employeeRepository.findById(id);
-        if(employee.isPresent()){
-            Employee update = employee.get();
-            update.setSurname(employeeDTO.getSurname());
-            update.setAge(employeeDTO.getAge());
-            update.setName(employeeDTO.getName());
-            update.setSalary(employeeDTO.getSalary());
-            return this.employeeRepository.save(update).getId();
-
+    public Long updateEmployee(Long id, EmployeeDTO employeeDTO) throws Exception {
+        Optional<Employee> optionalEmployee = this.employeeRepository.findById(id);
+        if(optionalEmployee.isEmpty()){
+            throw new Exception("Employee with this ID doesn't exist");
         }
-        else{
-            return null;
-        }
+        Employee employee = optionalEmployee.get();
+        employee.setSurname(employeeDTO.getSurname());
+        employee.setAge(employeeDTO.getAge());
+        employee.setName(employeeDTO.getName());
+        employee.setSalary(employeeDTO.getSalary());
+        return this.employeeRepository.save(employee).getId();
     }
 
     public List<Employee> getAllEmployee(){
