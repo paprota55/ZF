@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class EmployeeController {
                     notes = "Provide employee data to be saved in the database",
                     response = ResponseEntity.class)
     @PostMapping(value = "/addEmployee")
-    public ResponseEntity<?> addEmployee(@ApiParam(value = "Employee data like name, surname, salary, age", required = true) @RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<?> addEmployee(@ApiParam(value = "Employee data like name, surname, salary, age", required = true) @Valid @RequestBody EmployeeDTO employeeDTO){
         try {
             String response = "Employee with ID: " + this.employeeService.addEmployee(employeeDTO) + " was successfully added";
             return ResponseEntity.ok(response);
@@ -58,7 +59,7 @@ public class EmployeeController {
             notes = "Provide employee ID and data which need to be changed",
             response = ResponseEntity.class)
     @PutMapping(value = "/updateEmployee/{id}")
-    public ResponseEntity<?> updateEmployee(@ApiParam(value = "ID value for the employee you need to update", required = true) @PathVariable Long id, @ApiParam(value = "Employee data to change") @RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<?> updateEmployee(@ApiParam(value = "ID value for the employee you need to update", required = true) @PathVariable Long id, @ApiParam(value = "Employee data to change") @Valid @RequestBody EmployeeDTO employeeDTO){
         try{
             Long updatedId = this.employeeService.updateEmployee(id, employeeDTO);
             String response = "Employee with ID: " + updatedId + " was successfully updated";
