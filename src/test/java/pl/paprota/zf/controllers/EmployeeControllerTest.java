@@ -42,7 +42,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void givenEmployeeDTO_whenAddEmployee_ReturnMessage(){
+    void givenEmployeeDTO_whenAddEmployee_ReturnEmployeeId(){
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setName("Oskar");
         employeeDTO.setSurname("Kowalski");
