@@ -28,8 +28,7 @@ public class EmployeeController {
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<?> addEmployee(@ApiParam(value = "Employee data like name, surname, salary, age", required = true) @Valid @RequestBody EmployeeDTO employeeDTO){
         try {
-            String response = "Employee with ID: " + this.employeeService.addEmployee(employeeDTO) + " was successfully added";
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(this.employeeService.addEmployee(employeeDTO));
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
@@ -61,9 +60,7 @@ public class EmployeeController {
     @PutMapping(value = "/updateEmployee/{id}")
     public ResponseEntity<?> updateEmployee(@ApiParam(value = "ID value for the employee you need to update", required = true) @PathVariable Long id, @ApiParam(value = "Employee data to change") @Valid @RequestBody EmployeeDTO employeeDTO){
         try{
-            Long updatedId = this.employeeService.updateEmployee(id, employeeDTO);
-            String response = "Employee with ID: " + updatedId + " was successfully updated";
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(this.employeeService.updateEmployee(id, employeeDTO));
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
